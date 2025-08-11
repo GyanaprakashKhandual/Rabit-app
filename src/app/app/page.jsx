@@ -1,8 +1,11 @@
 import React from 'react'
+import Rabit from '../pages/app/rabit'
 
 function page() {
   return (
-    <div>page</div>
+    <div>
+        <Rabit/>
+    </div>
   )
 }
 
