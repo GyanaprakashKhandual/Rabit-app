@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { 
   Code2, 
@@ -34,7 +35,8 @@ export default function RabitHomepage() {
   const [activeFeature, setActiveFeature] = useState(0)
   const { scrollY } = useScroll()
   const backgroundY = useTransform(scrollY, [0, 500], [0, 150])
-  const opacity = useTransform(scrollY, [0, 300], [1, 0])
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -127,6 +129,7 @@ export default function RabitHomepage() {
               <motion.button
                 className="hidden sm:flex items-center gap-2 px-4 py-2 text-slate-600 hover:text-slate-900 font-medium transition-colors"
                 whileHover={{ scale: 1.02 }}
+                onClick={() => router.push('/register')}
               >
                 <User className="w-4 h-4" />
                 Sign In
