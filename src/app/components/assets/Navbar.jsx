@@ -21,6 +21,8 @@ import {
 } from "react-icons/fa";
 
 import Modal from "./Formmodal";
+import ProfileModal from "../modules/Profile";
+import ProjectSidebar from "../modules/Project";
 
 
 export default function GitHubNavbar() {
@@ -102,8 +104,9 @@ export default function GitHubNavbar() {
         <div className="flex items-center justify-between h-12">
           {/* Left side - Hamburger menu and project name */}
           <div className="flex items-center">
+            <ProjectSidebar isOpen={isProjectSidebarOpen} onClose={() => setIsProjectSidebarOpen(false)}/>
             <button
-              onClick={() => setIsSidebarOpen(true)}
+              onClick={() => setIsProjectSidebarOpen(true)}
               className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
             >
               <FiMenu className="h-6 w-6" />
@@ -339,6 +342,7 @@ export default function GitHubNavbar() {
 
             {/* Profile button */}
             <div className="relative group">
+              <ProfileModal isOpen={isProfileSidebarOpen} onClose={() => setIsProfileSidebarOpen(false)}/>
               <button
                 onClick={() => setIsProfileSidebarOpen(!isProfileSidebarOpen)}
                 className="p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100"
