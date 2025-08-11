@@ -45,6 +45,11 @@ export default function RabitHomepage() {
     return () => clearInterval(interval)
   }, [])
 
+  const pages = [
+    { 'text': 'Features', 'path': '/feature'},
+    { 'text': 'Documentation', 'path': '/documentation'},
+    { 'text': 'Pricing', 'path': '/pricing'},
+  ]
   const features = [
     {
       icon: Zap,
@@ -112,14 +117,14 @@ export default function RabitHomepage() {
             </motion.div>
 
             <div className="hidden lg:flex items-center space-x-8">
-              {['Features', 'Pricing', 'Docs', 'Blog'].map((item) => (
+              {pages.map((pages) => (
                 <motion.a
-                  key={item}
-                  href="#"
+                  key={pages.text}
+                  onClick={() => router.push(pages.path)}
                   className="text-slate-600 hover:text-slate-900 font-medium transition-colors relative group"
                   whileHover={{ y: -2 }}
                 >
-                  {item}
+                  {pages.text}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-violet-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
                 </motion.a>
               ))}
@@ -476,10 +481,12 @@ export default function RabitHomepage() {
             <div>
               <h3 className="text-lg font-bold mb-4">Product</h3>
               <ul className="space-y-3">
-                {['Features', 'Pricing', 'Documentation', 'API', 'Integrations'].map((item) => (
-                  <li key={item}>
-                    <a href="#" className="text-slate-400 hover:text-white transition-colors">
-                      {item}
+                {pages.map((page) => (
+                  <li key={page.text}>
+                    <a
+                      onClick={() => router.push(page.path)}
+                      className="text-slate-400 hover:text-white transition-colors cursor-pointer">
+                      {page.text}
                     </a>
                   </li>
                 ))}

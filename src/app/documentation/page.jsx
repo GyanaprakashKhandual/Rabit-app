@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Home, 
@@ -16,7 +16,6 @@ import {
   Moon, 
   Sun,
   Search,
-  User,
   ChevronRight,
   Database,
   Palette,
@@ -28,9 +27,141 @@ import {
 } from 'lucide-react';
 import { FaCoffee } from 'react-icons/fa';
 
+// Component imports
+const HomeContent = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Welcome to Rabit Documentation</h2>
+    <p>Select an item from the sidebar to get started.</p>
+  </div>
+);
+
+const GettingStarted = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Getting Started</h2>
+    <div className="space-y-4">
+      <p>To get started with Rabit, follow these steps:</p>
+      <ol className="list-decimal pl-6 space-y-2">
+        <li>Create an account on our platform</li>
+        <li>Install the Rabit SDK</li>
+        <li>Configure your application</li>
+        <li>Implement authentication</li>
+        <li>Deploy your application</li>
+      </ol>
+    </div>
+  </div>
+);
+
+const Guides = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Guides</h2>
+    <div className="space-y-4">
+      <div className="p-4 border rounded-lg">
+        <h3 className="font-semibold mb-2">Authentication Guide</h3>
+        <p>Learn how to implement secure authentication in your application.</p>
+      </div>
+      <div className="p-4 border rounded-lg">
+        <h3 className="font-semibold mb-2">API Integration</h3>
+        <p>Step-by-step guide to integrating with our API.</p>
+      </div>
+      <div className="p-4 border rounded-lg">
+        <h3 className="font-semibold mb-2">Performance Optimization</h3>
+        <p>Tips and tricks to optimize your Rabit implementation.</p>
+      </div>
+    </div>
+  </div>
+);
+
+const Reports = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Reports</h2>
+    <p>View and analyze your application's performance metrics.</p>
+  </div>
+);
+
+const WorkFlow = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Work Flow</h2>
+    <p>Understand the Rabit work flow and best practices.</p>
+  </div>
+);
+
+const Introduction = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Introduction</h2>
+    <p>Learn about the core concepts of Rabit.</p>
+  </div>
+);
+
+const Extension = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Extension</h2>
+    <p>Extend Rabit's functionality with our extension system.</p>
+  </div>
+);
+
+const Connection = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Connection</h2>
+    <p>Connect your services with Rabit's integration platform.</p>
+  </div>
+);
+
+const NetworkAccess = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Network Access</h2>
+    <p>Configure network access and security settings.</p>
+  </div>
+);
+
+const Security = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Security at Rabit</h2>
+    <p>Learn about Rabit's security measures and best practices.</p>
+  </div>
+);
+
+const FrontendAPI = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Frontend API</h2>
+    <p>Documentation for Rabit's frontend API.</p>
+  </div>
+);
+
+const BackendAPI = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Backend API</h2>
+    <p>Documentation for Rabit's backend API.</p>
+  </div>
+);
+
+const BackendSDK = () => (
+  <div>
+    <h2 className="text-2xl font-bold mb-4">Backend SDK</h2>
+    <p>Documentation for Rabit's backend SDK.</p>
+  </div>
+);
+
 const RabitDocumentation = () => {
-  const [theme, setTheme] = useState('light'); // 'light', 'dark', 'brown'
+  const [theme, setTheme] = useState('light');
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeContent, setActiveContent] = useState('Home');
+  const [searchResults, setSearchResults] = useState([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+
+  // Load theme and active content from localStorage on initial render
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('rabit-docs-theme');
+    const savedContent = localStorage.getItem('rabit-docs-activeContent');
+    
+    if (savedTheme) setTheme(savedTheme);
+    if (savedContent) setActiveContent(savedContent);
+  }, []);
+
+  // Save theme and active content to localStorage when they change
+  useEffect(() => {
+    localStorage.setItem('rabit-docs-theme', theme);
+    localStorage.setItem('rabit-docs-activeContent', activeContent);
+  }, [theme, activeContent]);
 
   const themes = {
     light: {
@@ -86,101 +217,81 @@ const RabitDocumentation = () => {
   const currentTheme = themes[theme];
 
   const sidebarItems = [
-    { icon: Home, label: 'Home', active: true },
-    { icon: PlayCircle, label: 'Getting started' },
-    { icon: BookOpen, label: 'Guides' },
-    { icon: Component, label: 'UI Components' },
-    { icon: FileText, label: 'API Reference' }
+    { icon: Home, label: 'Home', component: 'Home' },
+    { icon: PlayCircle, label: 'Getting started', component: 'GettingStarted' },
+    { icon: BookOpen, label: 'Guides', component: 'Guides' },
+    { icon: Component, label: 'Reports', component: 'Reports' },
+    { icon: FileText, label: 'Work Flow', component: 'WorkFlow' }
   ];
 
   const coreConceptsItems = [
-    { icon: Zap, label: 'Introduction' },
-    { icon: Users, label: 'Users' },
-    { icon: Building, label: 'Organizations' },
-    { icon: Settings, label: 'Session management' },
-    { icon: Shield, label: 'Security at Rabit' },
-    { icon: Key, label: 'SDK Reference' }
-  ];
-
-  const frameworkItems = [
-    { icon: Code, label: 'Next.js' },
-    { icon: Layers, label: 'React' },
-    { icon: Terminal, label: 'JavaScript' },
-    { icon: Database, label: 'Node.js' },
-    { icon: Palette, label: 'Remix' }
+    { icon: Zap, label: 'Introduction', component: 'Introduction' },
+    { icon: Users, label: 'Extension', component: 'Extension' },
+    { icon: Building, label: 'Connection', component: 'Connection' },
+    { icon: Settings, label: 'Network Access', component: 'NetworkAccess' },
+    { icon: Shield, label: 'Security at Rabit', component: 'Security' },
   ];
 
   const referenceItems = [
-    { label: 'Frontend API' },
-    { label: 'Backend API' },
-    { label: 'Backend SDK' }
+    { label: 'Frontend API', component: 'FrontendAPI' },
+    { label: 'Backend API', component: 'BackendAPI' },
+    { label: 'Backend SDK', component: 'BackendSDK' }
   ];
 
-  const mainFeatures = [
-    {
-      icon: PlayCircle,
-      title: 'Quickstarts & Tutorials',
-      description: 'Explore our end-to-end tutorials and getting started guides for different application stacks using Rabit.',
-      color: 'from-blue-500 to-purple-600'
-    },
-    {
-      icon: Component,
-      title: 'UI Components',
-      description: 'Rabit\'s pre-built UI components give you a beautiful, fully-functional user management experience in minutes.',
-      color: 'from-green-500 to-teal-600'
-    },
-    {
-      icon: Shield,
-      title: 'Security',
-      description: 'Security is at the top concern of every feature we build. This documentation lists some of the many protections included with Rabit.',
-      color: 'from-orange-500 to-red-600'
-    },
-    {
-      icon: Key,
-      title: 'API Reference',
-      description: 'Dig into our API reference documentation and SDKs. We have everything you need to get started setting up authentication with Rabit.',
-      color: 'from-purple-500 to-pink-600'
-    }
+  const allContentItems = [
+    ...sidebarItems,
+    ...coreConceptsItems,
+    ...referenceItems
   ];
 
-  const frameworkGuides = [
-    {
-      icon: Code,
-      name: 'Next.js',
-      description: 'Easily add secure, beautiful, and fast authentication to Next.js with Rabit.',
-      color: 'bg-black'
-    },
-    {
-      icon: Globe,
-      name: 'Gatsby',
-      description: 'Learn about installing and initializing Rabit in a new Gatsby application.',
-      color: 'bg-purple-600'
-    },
-    {
-      icon: Palette,
-      name: 'Remix',
-      description: 'Get started installing and initializing Rabit in a new Create React App.',
-      color: 'bg-blue-600'
-    },
-    {
-      icon: Layers,
-      name: 'React',
-      description: 'Get started installing and initializing Rabit in a new Create React App.',
-      color: 'bg-cyan-500'
-    },
-    {
-      icon: Database,
-      name: 'Redwood',
-      description: 'Grow your RedwoodJS application with Rabit user management and authentication.',
-      color: 'bg-red-600'
-    },
-    {
-      icon: Smartphone,
-      name: 'Expo',
-      description: 'Use Rabit with Expo to authenticate users in your React Native application.',
-      color: 'bg-gray-900'
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    if (query.trim() === '') {
+      setSearchResults([]);
+      setShowSearchResults(false);
+      return;
     }
-  ];
+    
+    const results = allContentItems.filter(item => 
+      item.label.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    setSearchResults(results);
+    setShowSearchResults(true);
+  };
+
+  const renderContent = () => {
+    switch (activeContent) {
+      case 'Home':
+        return <HomeContent />;
+      case 'GettingStarted':
+        return <GettingStarted />;
+      case 'Guides':
+        return <Guides />;
+      case 'Reports':
+        return <Reports />;
+      case 'WorkFlow':
+        return <WorkFlow />;
+      case 'Introduction':
+        return <Introduction />;
+      case 'Extension':
+        return <Extension />;
+      case 'Connection':
+        return <Connection />;
+      case 'NetworkAccess':
+        return <NetworkAccess />;
+      case 'Security':
+        return <Security />;
+      case 'FrontendAPI':
+        return <FrontendAPI />;
+      case 'BackendAPI':
+        return <BackendAPI />;
+      case 'BackendSDK':
+        return <BackendSDK />;
+      default:
+        return <HomeContent />;
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -232,8 +343,12 @@ const RabitDocumentation = () => {
                 initial="hidden"
                 animate="visible"
                 transition={{ delay: index * 0.1 }}
+                onClick={() => {
+                  setActiveContent(item.component);
+                  setShowSearchResults(false);
+                }}
                 className={`flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer transition-colors ${
-                  item.active 
+                  activeContent === item.component
                     ? currentTheme.active
                     : `${currentTheme.text.secondary} ${currentTheme.hover}`
                 }`}
@@ -257,7 +372,15 @@ const RabitDocumentation = () => {
                   initial="hidden"
                   animate="visible"
                   transition={{ delay: (index + 5) * 0.1 }}
-                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer transition-colors ${currentTheme.text.secondary} ${currentTheme.hover}`}
+                  onClick={() => {
+                    setActiveContent(item.component);
+                    setShowSearchResults(false);
+                  }}
+                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer transition-colors ${
+                    activeContent === item.component
+                      ? currentTheme.active
+                      : `${currentTheme.text.secondary} ${currentTheme.hover}`
+                  }`}
                 >
                   <item.icon className="w-4 h-4" />
                   <span className="text-sm">{item.label}</span>
@@ -279,7 +402,15 @@ const RabitDocumentation = () => {
                   initial="hidden"
                   animate="visible"
                   transition={{ delay: (index + 11) * 0.1 }}
-                  className={`px-3 py-2 rounded-lg cursor-pointer transition-colors ${currentTheme.text.secondary} ${currentTheme.hover}`}
+                  onClick={() => {
+                    setActiveContent(item.component);
+                    setShowSearchResults(false);
+                  }}
+                  className={`px-3 py-2 rounded-lg cursor-pointer transition-colors ${
+                    activeContent === item.component
+                      ? currentTheme.active
+                      : `${currentTheme.text.secondary} ${currentTheme.hover}`
+                  }`}
                 >
                   <span className="text-sm">{item.label}</span>
                 </motion.div>
@@ -305,12 +436,42 @@ const RabitDocumentation = () => {
                   type="text"
                   placeholder="Search documentation"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => handleSearch(e.target.value)}
                   className={`w-full pl-10 pr-4 py-2 rounded-lg border ${currentTheme.input} focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
                 />
                 <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-xs ${currentTheme.text.muted}`}>
                   ⌘K
                 </span>
+                
+                {/* Search Results Dropdown */}
+                {showSearchResults && (
+                  <div className={`absolute left-0 right-0 mt-1 rounded-lg shadow-lg z-20 ${currentTheme.card} border ${currentTheme.text.primary}`}>
+                    {searchResults.length > 0 ? (
+                      <div className="py-1">
+                        {searchResults.map((item) => (
+                          <div
+                            key={item.label}
+                            onClick={() => {
+                              setActiveContent(item.component);
+                              setShowSearchResults(false);
+                              setSearchQuery('');
+                            }}
+                            className={`px-4 py-2 cursor-pointer ${currentTheme.hover}`}
+                          >
+                            <div className="flex items-center">
+                              {item.icon && <item.icon className="w-4 h-4 mr-3" />}
+                              <span>{item.label}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="px-4 py-2 text-sm">
+                        No results found for "{searchQuery}"
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -355,97 +516,7 @@ const RabitDocumentation = () => {
         {/* Content */}
         <main className="flex-1 overflow-y-auto">
           <div className="max-w-6xl mx-auto px-6 py-8">
-            {/* Hero Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mb-12"
-            >
-              <div className={`text-sm ${currentTheme.text.tertiary} mb-2`}>Get setup</div>
-              <h1 className={`text-4xl font-bold ${currentTheme.text.primary} mb-4`}>
-                Introducing the new Rabit documentation
-              </h1>
-              <p className={`text-lg ${currentTheme.text.secondary} max-w-2xl`}>
-                Find all the guides and resources you need to develop with Rabit.
-              </p>
-            </motion.div>
-
-            {/* Feature Cards */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16"
-            >
-              {mainFeatures.map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  variants={itemVariants}
-                  whileHover={{ y: -5 }}
-                  className={`${currentTheme.card} border rounded-xl p-6 cursor-pointer transition-all duration-300 hover:shadow-lg`}
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center flex-shrink-0`}>
-                      <feature.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className={`text-lg font-semibold ${currentTheme.text.primary} mb-2`}>
-                        {feature.title}
-                      </h3>
-                      <p className={`${currentTheme.text.secondary} text-sm leading-relaxed`}>
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* Framework Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="mb-8"
-            >
-              <h2 className={`text-2xl font-bold ${currentTheme.text.primary} mb-2`}>
-                Explore by frontend framework
-              </h2>
-              <p className={`${currentTheme.text.secondary} mb-8`}>
-                Find all the guides and resources you need to develop with Rabit.
-              </p>
-
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              >
-                {frameworkGuides.map((framework, index) => (
-                  <motion.div
-                    key={framework.name}
-                    variants={itemVariants}
-                    whileHover={{ y: -5 }}
-                    className={`${currentTheme.card} border rounded-xl p-6 cursor-pointer transition-all duration-300 hover:shadow-lg`}
-                  >
-                    <div className="flex items-start space-x-4">
-                      <div className={`w-10 h-10 ${framework.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                        <framework.icon className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-2`}>
-                          {framework.name}
-                        </h3>
-                        <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-sm leading-relaxed`}>
-                          {framework.description}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </motion.div>
+            {renderContent()}
           </div>
         </main>
       </div>
