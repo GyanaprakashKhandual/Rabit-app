@@ -86,18 +86,21 @@ export default function LoginPage() {
       }
 
       // Store token in localStorage for persistent login
-      localStorage.setItem("authToken", data.token);
+      console.log("Storing token:", data.token); // Debug log
+      localStorage.setItem("token", data.token); // Changed from "authToken" to "token"
       
       toast.success("Login successful! Redirecting...");
       setTimeout(() => {
         router.push("/app");
       }, 1500);
     } catch (error) {
+      console.error("Login error:", error); // Debug log
       toast.error(error.message || "An error occurred during login");
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-gray-50 flex">

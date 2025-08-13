@@ -29,6 +29,7 @@ import {
   Users,
   TrendingUp
 } from 'lucide-react'
+import { FaCoffee } from 'react-icons/fa';
 
 export default function RabitHomepage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -108,8 +109,8 @@ export default function RabitHomepage() {
               className="flex items-center space-x-3"
               whileHover={{ scale: 1.02 }}
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/25">
-                <Rocket className="w-6 h-6 text-white" />
+              <div className="">
+                <FaCoffee className="w-10 h-10 text-blue-900" />
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
                 Rabit
@@ -121,11 +122,10 @@ export default function RabitHomepage() {
                 <motion.a
                   key={pages.text}
                   onClick={() => router.push(pages.path)}
-                  className="text-slate-600 hover:text-slate-900 font-medium transition-colors relative group"
-                  whileHover={{ y: -2 }}
+                  className="text-slate-600 hover:text-slate-900 font-medium transition-colors relative group cursor-pointer"
                 >
                   {pages.text}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-violet-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gradient-to-r from-violet-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
                 </motion.a>
               ))}
             </div>
@@ -141,7 +141,7 @@ export default function RabitHomepage() {
               </motion.button>
               
               <motion.button
-                className="bg-gradient-to-r from-violet-500 to-purple-600 text-white px-6 py-2.5 rounded-full font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300"
+                className="bg-gradient-to-r from-violet-500 to-purple-600 text-white px-6 py-2.5 rounded-full font-semibold shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >

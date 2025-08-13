@@ -2,12 +2,49 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, LogOut, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ProfileModal({ isOpen, onClose }) {
-  const handleLogout = () => {
-    // Add your logout logic here
-    console.log('Logging out...');
-    onClose();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      // Get token from localStorage
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      // Call logout API
+      const response = await fetch('http://localhost:5000/v1/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Logout failed');
+      }
+
+      // Clear token from localStorage
+      localStorage.removeItem('token');
+      
+      // Show success message
+      toast.success('Logged out successfully');
+      
+      // Close modal and redirect to login page
+      onClose();
+      router.push('/login');
+      
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error(error.message || 'An error occurred during logout');
+    }
   };
 
   return (
@@ -18,7 +55,7 @@ export default function ProfileModal({ isOpen, onClose }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 flex items-center justify-center"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
           onClick={onClose}
         >
           {/* Modal Content */}
@@ -27,7 +64,7 @@ export default function ProfileModal({ isOpen, onClose }) {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
             transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
-            className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 relative"
+            className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 relative z-50"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
