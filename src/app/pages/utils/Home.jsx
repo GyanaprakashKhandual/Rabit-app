@@ -35,7 +35,7 @@ export default function Homepage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <FaCoffee className="text-indigo-600 text-2xl" />
+            <FaCoffee className="w-8 h-8 text-blue-900" />
             <span className="text-xl font-bold text-gray-800">Rabit</span>
           </motion.div>
 
