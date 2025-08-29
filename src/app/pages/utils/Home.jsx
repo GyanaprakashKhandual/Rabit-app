@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, use } from 'react';
 import { motion } from 'framer-motion';
 import { FaCoffee, FaChartLine, FaUpload, FaSync, FaEdit, FaTrash, FaPlayCircle, FaDownload, FaUsers, FaShieldAlt } from 'react-icons/fa';
-
+import { useRouter } from 'next/navigation';
 export default function Homepage() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const constraintsRef = useRef(null);
+
+  const router = useRouter();
 
   // Animation variants
   const fadeIn = {
@@ -56,6 +58,7 @@ export default function Homepage() {
           {/* Auth Buttons */}
           <div className="hidden md:flex space-x-4">
             <motion.button 
+            onClick={() => router.push('/auth')}
               className="px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
               whileHover={{ scale: 1.05 }}
             >
