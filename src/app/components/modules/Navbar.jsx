@@ -18,15 +18,19 @@ import {
     ChevronDown
 } from 'lucide-react';
 
-import { getProjectDetails } from '@/app/utils/functions/GetProjectDetails';
-import TestTypeList from './Window';
-import { SettingSidebar } from './Sidebar';
+import { getProjectDetails } from '@/app/utils/GetProject';
 import { GoogleArrowDown } from '../utils/Icon';
+import FilterSidebar from './Window';
 
 // Styled Dropdown Component
 const StyledDropdown = ({ options, placeholder, value, onChange, size = "sm", className = "" }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
+  
+
+    const toggleFilterSidebar = () => {
+        setFilterSidebarOpen(!filterSidebarOpen);
+    }
 
     useEffect(() => {
         if (value) {
@@ -106,6 +110,12 @@ export default function Navbar() {
     const [project, setProject] = useState(null);
     const [testTypeIsOpen, setTestTypeIsOpen] = useState(false);
     const [settingIsOpen, setSettingIsOpen] = useState(false);
+      const [filterSidebarOpen, setFilterSidebarOpen] = useState(false);
+
+    
+    const toggleFilterSidebar = () => {
+        setFilterSidebarOpen(!filterSidebarOpen);
+    }
 
     useEffect(() => {
         (async () => {
@@ -125,13 +135,13 @@ export default function Navbar() {
 
     // Report options
     const reportOptions = [
-        { value: 'bug', label: 'BUG', icon: <Bug className="h-4 w-4" /> },
-        { value: 'test-case', label: 'Test Case', icon: <FileText className="h-4 w-4" /> }
+        { value: 'bug', label: 'BUG Report', icon: <Bug className="h-4 w-4" /> },
+        { value: 'test-case', label: 'Test Result', icon: <FileText className="h-4 w-4" /> }
     ];
 
     // Prevent body scroll when settings sidebar is open
     useEffect(() => {
-        if (settingIsOpen) {
+        if (filterSidebarOpen) {
             document.body.style.overflow = 'hidden';
         } else {
             // Add delay before restoring scroll to prevent flash
@@ -146,7 +156,7 @@ export default function Navbar() {
         return () => {
             document.body.style.overflow = 'unset';
         };
-    }, [settingIsOpen]);
+    }, [filterSidebarOpen]);
 
     return (
         <nav className="sticky top-0 z-50 bg-gradient-to-r from-blue-100 via-sky-50 to-blue-100 backdrop-blur-md border-b border-blue-200/30">
@@ -197,10 +207,7 @@ export default function Navbar() {
                         >
                             <Menu className="h-6 w-6 text-black" />
                         </motion.p>
-                        <TestTypeList
-                            sidebarOpen={testTypeIsOpen}
-                            onClose={() => setTestTypeIsOpen(false)}
-                        />
+                        
 
                         <motion.h1
                             initial={{ opacity: 0, x: -20 }}
@@ -255,6 +262,7 @@ export default function Navbar() {
 
                         {/* Action Buttons */}
                         <motion.button
+                        onClick={toggleFilterSidebar}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-colors duration-200"
@@ -290,13 +298,10 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                {/* Settings Sidebar with scroll prevention */}
-                <div style={{ overflow: settingIsOpen ? 'hidden' : 'visible' }}>
-                    <SettingSidebar
-                        isOpen={settingIsOpen}
-                        toggleSidebar={() => setSettingIsOpen((prev) => !prev)}
-                    />
-                </div>
+                <FilterSidebar
+                isOpen={filterSidebarOpen} 
+        onClose={() => setFilterSidebarOpen(false)} 
+                />
 
                 {/* Mobile Menu */}
                 <AnimatePresence>

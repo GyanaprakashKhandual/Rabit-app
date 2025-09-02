@@ -19,7 +19,14 @@ const CalfFolder = () => {
     </svg>
   );
 };
+const GoogleArrowDown = () => {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+      <path d="M5 7l5 5 5-5z" fill="currentColor" />
+    </svg>
 
+  )
+}
 const CalfFolderOpen = () => {
   return (
     <svg
@@ -54,6 +61,5 @@ const CalfFolderOpen = () => {
   );
 };
 
-
-
-module.exports = { CalfFolder, CalfFolderOpen };
+// Use ES6 export syntax instead of module.exports
+export { CalfFolder, CalfFolderOpen, GoogleArrowDown };
