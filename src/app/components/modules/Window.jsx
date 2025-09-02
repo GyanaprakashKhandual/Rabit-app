@@ -20,6 +20,24 @@ const FilterSidebar = ({ isOpen, onClose }) => {
       [key]: value
     }))
   }
+  // Prevent body scroll when sidebar is open
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Add delay before restoring scroll to prevent flash
+      const timer = setTimeout(() => {
+        document.body.style.overflow = 'unset';
+      }, 300); // Match sidebar animation duration
+
+      return () => clearTimeout(timer);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen])
 
   const handleApply = () => {
     console.log('Applied filters:', filters)
