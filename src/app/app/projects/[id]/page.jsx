@@ -55,14 +55,6 @@ export default async function ProjectPage({ params }) {
         <div>
           <Navbar/>
         </div>
-        <h1 className="text-3xl font-bold">{project.projectName}</h1>
-        <p className="mt-4 text-gray-700">{project.projectDesc}</p>
-        <p className="mt-2 text-sm text-gray-500">
-          Created At:{" "}
-          {project.createdAt
-            ? new Date(project.createdAt).toLocaleString()
-            : "N/A"}
-        </p>
       </div>
     );
   } catch (error) {
