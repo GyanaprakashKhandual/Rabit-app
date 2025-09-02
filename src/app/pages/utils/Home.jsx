@@ -3,8 +3,10 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaCoffee, FaChartLine, FaUpload, FaSync, FaEdit, FaTrash, FaPlayCircle, FaDownload, FaUsers, FaShieldAlt, FaRocket, FaCog, FaLightbulb } from 'react-icons/fa';
+import { Router, useRouter } from 'next/navigation';
 
 export default function Homepage() {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Animation variants
@@ -71,6 +73,7 @@ export default function Homepage() {
           {/* Auth Buttons */}
           <div className="hidden lg:flex space-x-4">
             <motion.button
+              onClick={() => router.push('/auth')}
               className="px-6 py-2.5 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-300 font-medium"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
